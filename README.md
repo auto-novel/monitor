@@ -2,11 +2,13 @@
 
 [![GPL-3.0](https://img.shields.io/github/license/auto-novel/monitor)](https://github.com/auto-novel/monitor#license)
 
+该项目是网站内部基础设施与服务的性能监控系统，用于跟踪和可视化关键指标。
+
 ## 功能
 
-- [**node**](https://github.com/prometheus/node_exporter): 用于采集*NIX内核暴露的硬件与操作系统指标
+- [**node**](https://github.com/prometheus/node_exporter): 用于采集 *NIX 内核暴露的硬件与操作系统指标
 - [**cadvisor**](https://github.com/google/cadvisor): 用于采集运行中容器的资源使用情况和性能特征
-- [**sakura_share**]: 用于采集 Sakura Share 服务的性能指标
+- **sakura_share**: 用于采集 Sakura Share 服务的性能指标
 
 ## 部署
 
