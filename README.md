@@ -24,3 +24,5 @@ EOF
 # 3. 启动服务
 docker compose up -d
 ```
+
+启动后，访问 http://localhost:3000 即可。
