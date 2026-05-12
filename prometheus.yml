@@ -16,5 +16,6 @@ scrape_configs:
 
   - job_name: 'sakura_share'
     scrape_interval: 15s
+    scheme: https
     static_configs:
       - targets: ['sakura-share.one']
