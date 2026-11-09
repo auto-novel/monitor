@@ -11,7 +11,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./data/grafana-provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
       - ./data/grafana:/var/lib/grafana
 
   prometheus:
