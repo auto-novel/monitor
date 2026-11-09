@@ -1013,7 +1013,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(container_cpu_user_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]) * 100",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_cpu_user_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m])) * 100",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -1115,7 +1115,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "container_memory_usage_bytes{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}",
+          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"})",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1218,7 +1218,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1321,7 +1321,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1424,7 +1424,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1527,7 +1527,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1648,7 +1648,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(container_cpu_user_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]) * 100",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_cpu_user_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m])) * 100",
           "format": "time_series",
           "instant": false,
           "interval": "",
@@ -1750,7 +1750,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "container_memory_usage_bytes{image!=\"\",container_label_com_docker_compose_project=\"forum\"}",
+          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{image!=\"\",container_label_com_docker_compose_project=\"forum\"})",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1853,7 +1853,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1956,7 +1956,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -2059,7 +2059,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -2162,7 +2162,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m])",
+          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
