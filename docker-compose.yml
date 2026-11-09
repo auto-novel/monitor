@@ -1,14 +1,9 @@
-networks:
-  default:
-    name: auto-novel
-    external: true
-
 services:
   grafana:
     image: grafana/grafana:12.3.1
     depends_on:
       - prometheus
-    restart: always
+    restart: unless-stopped
     environment:
       - GF_SERVER_ROOT_URL
       - GF_SECURITY_ADMIN_USER
@@ -16,19 +11,19 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./data/grafana-provisioning:/etc/grafana/provisioning
+      - ./data/grafana-provisioning:/etc/grafana/provisioning:ro
       - ./data/grafana:/var/lib/grafana
 
   prometheus:
     image: prom/prometheus:v3.8.1
-    restart: always
+    restart: unless-stopped
     volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./data/prometheus:/prometheus
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
 
   node-exporter:
     image: prom/node-exporter:v1.9.1
-    restart: always
+    restart: unless-stopped
     pid: host
     command:
       - --path.rootfs=/host
@@ -37,6 +32,7 @@ services:
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.52.0
+    restart: unless-stopped
     devices:
       - /dev/kmsg:/dev/kmsg
     volumes:
@@ -45,3 +41,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+
+networks:
+  default:
+    name: auto-novel
+    external: true
