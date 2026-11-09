@@ -8,7 +8,8 @@ scrape_configs:
 
   - job_name: 'node'
     static_configs:
-      - targets: ['node-exporter:9100']
+      # node-exporter 使用宿主机网络，不再注册到 Compose 网络的服务 DNS。
+      - targets: ['host.docker.internal:3001']
 
   - job_name: 'cadvisor'
     static_configs:
