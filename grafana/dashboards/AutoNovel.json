@@ -113,7 +113,7 @@
               }
             ]
           },
-          "unit": "bytes"
+          "unit": "Bps"
         },
         "overrides": []
       },
@@ -141,14 +141,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(irate(container_network_receive_bytes_total{interface=\"eth0\"}[5m]))",
+          "expr": "sum(rate(node_network_receive_bytes_total{job=\"node\",device!~\"lo|veth.*|docker.*|br-.*\"}[$__rate_interval]))",
           "legendFormat": "接收速率",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         },
         {
           "datasource": {
@@ -156,12 +157,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "-sum(rate(container_network_transmit_bytes_total{interface=\"eth0\"}[5m]))",
+          "expr": "-sum(rate(node_network_transmit_bytes_total{job=\"node\",device!~\"lo|veth.*|docker.*|br-.*\"}[$__rate_interval]))",
           "hide": false,
           "instant": false,
           "legendFormat": "发送速率",
           "range": true,
-          "refId": "B"
+          "refId": "B",
+          "interval": "1m"
         }
       ],
       "title": "系统网络传输速度",
@@ -257,14 +259,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "irate(container_fs_writes_bytes_total{id=\"/\"}[5m])",
+          "expr": "rate(container_fs_writes_bytes_total{id=\"/\"}[$__rate_interval])",
           "legendFormat": "Write速率",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         },
         {
           "datasource": {
@@ -272,12 +275,13 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "-irate(container_fs_reads_bytes_total{id=\"/\"}[5m])",
+          "expr": "-rate(container_fs_reads_bytes_total{id=\"/\"}[$__rate_interval])",
           "hide": false,
           "instant": false,
           "legendFormat": "Read速率",
           "range": true,
-          "refId": "B"
+          "refId": "B",
+          "interval": "1m"
         }
       ],
       "title": "系统硬盘读写速度",
@@ -378,11 +382,11 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(container_cpu_user_seconds_total{image!=\"\"}[5m])) by (container_label_com_docker_compose_project) * 100",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\"}[$__rate_interval])) by (container_label_com_docker_compose_project) * 100",
           "format": "time_series",
           "instant": false,
-          "interval": "",
-          "legendFormat": "{{name}}",
+          "interval": "1m",
+          "legendFormat": "{{container_label_com_docker_compose_project}}",
           "range": true,
           "refId": "A"
         }
@@ -480,8 +484,8 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(container_memory_usage_bytes{image!=\"\"}) by (container_label_com_docker_compose_project)",
-          "legendFormat": "{{name}}",
+          "expr": "sum(container_memory_working_set_bytes{image!=\"\"}) by (container_label_com_docker_compose_project)",
+          "legendFormat": "{{container_label_com_docker_compose_project}}",
           "range": true,
           "refId": "A",
           "datasource": {
@@ -583,14 +587,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(irate(container_network_receive_bytes_total{image!=\"\"}[5m])) by (container_label_com_docker_compose_project)",
-          "legendFormat": "{{name}}",
+          "expr": "sum(rate(container_network_receive_bytes_total{image!=\"\"}[$__rate_interval])) by (container_label_com_docker_compose_project)",
+          "legendFormat": "{{container_label_com_docker_compose_project}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "网络接收速率",
@@ -686,14 +691,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(irate(container_fs_reads_bytes_total{image!=\"\"}[5m])) by (container_label_com_docker_compose_project)",
-          "legendFormat": "{{name}}",
+          "expr": "sum(rate(container_fs_reads_bytes_total{image!=\"\"}[$__rate_interval])) by (container_label_com_docker_compose_project)",
+          "legendFormat": "{{container_label_com_docker_compose_project}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "硬盘 Read 速率",
@@ -789,14 +795,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(irate(container_fs_writes_bytes_total{image!=\"\"}[5m])) by (container_label_com_docker_compose_project)",
-          "legendFormat": "{{name}}",
+          "expr": "sum(rate(container_fs_writes_bytes_total{image!=\"\"}[$__rate_interval])) by (container_label_com_docker_compose_project)",
+          "legendFormat": "{{container_label_com_docker_compose_project}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "硬盘 Write 速率",
@@ -892,14 +899,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(irate(container_network_transmit_bytes_total{image!=\"\"}[5m])) by (container_label_com_docker_compose_project)",
-          "legendFormat": "{{name}}",
+          "expr": "sum(rate(container_network_transmit_bytes_total{image!=\"\"}[$__rate_interval])) by (container_label_com_docker_compose_project)",
+          "legendFormat": "{{container_label_com_docker_compose_project}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "网络发送速率",
@@ -1013,10 +1021,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_cpu_user_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m])) * 100",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_cpu_usage_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[$__rate_interval])) * 100",
           "format": "time_series",
           "instant": false,
-          "interval": "",
+          "interval": "1m",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A"
@@ -1115,7 +1123,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"})",
+          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"})",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1218,14 +1226,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "网络接收速率",
@@ -1321,14 +1330,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "网络发送速率",
@@ -1424,14 +1434,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "硬盘 Write 速率",
@@ -1527,14 +1538,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"auto-novel\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "硬盘 Read 速率",
@@ -1648,10 +1660,10 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_cpu_user_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m])) * 100",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_cpu_usage_seconds_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[$__rate_interval])) * 100",
           "format": "time_series",
           "instant": false,
-          "interval": "",
+          "interval": "1m",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A"
@@ -1750,7 +1762,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_usage_bytes{image!=\"\",container_label_com_docker_compose_project=\"forum\"})",
+          "expr": "sum by (container_label_com_docker_compose_service) (container_memory_working_set_bytes{image!=\"\",container_label_com_docker_compose_project=\"forum\"})",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
@@ -1853,14 +1865,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_network_receive_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "网络接收速率",
@@ -1956,14 +1969,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_network_transmit_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "网络发送速率",
@@ -2059,14 +2073,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_fs_writes_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "硬盘 Write 速率",
@@ -2162,14 +2177,15 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum by (container_label_com_docker_compose_service) (irate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[5m]))",
+          "expr": "sum by (container_label_com_docker_compose_service) (rate(container_fs_reads_bytes_total{image!=\"\",container_label_com_docker_compose_project=\"forum\"}[$__rate_interval]))",
           "legendFormat": "{{container_label_com_docker_compose_service}}",
           "range": true,
           "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
-          }
+          },
+          "interval": "1m"
         }
       ],
       "title": "硬盘 Read 速率",
@@ -2177,7 +2193,7 @@
     }
   ],
   "preload": false,
-  "refresh": "10s",
+  "refresh": "1m",
   "schemaVersion": 42,
   "tags": [],
   "templating": {
